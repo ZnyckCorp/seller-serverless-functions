@@ -45,12 +45,12 @@ const storeSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-        validator: function(value) {
-          // Simple URL validation
-          return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(value);
-        },
-        message: 'Invalid URL for store_image_url',
+      validator: function(value) {
+          // Modified URL validation to allow both "https://" and "data:image"
+          return /^(https?|data:image).*$/i.test(value);
       },
+      message: 'Invalid URL for store_image_url',
+  },
     
   },
 });

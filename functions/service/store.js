@@ -1,4 +1,5 @@
 const Store = require('../model/store');
+const Product = require('../model/product');
 
 exports.createStore = async (req, res) =>{
     try {
@@ -72,7 +73,7 @@ exports.updateStore = async (req, res) => {
           if (result.acknowledged && result.modifiedCount > 0) {
             return res.status(200).json({ message: 'Store updated successfully' });
           } else if (result.acknowledged && result.modifiedCount === 0) {
-            return res.status(404).json({ error: 'No changes !!' });
+            return res.status(200).json({ message: 'No changes made to store' });
           } else {
             return res.status(404).json({ error: 'Store not found' });
           }
@@ -90,6 +91,8 @@ exports.deleteStore = async (req, res) => {
         const store_id = req.query.store_id;
         
       try {
+        await Product.deleteMany({ store_id: store_id });
+
         const result = await Store.deleteOne({ _id: store_id });
         
         if (result.deletedCount > 0) {

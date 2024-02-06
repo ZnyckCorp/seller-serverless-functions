@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
+const subCategories = require('./subcategories');
 
 const productSchema = new mongoose.Schema({
     item_name: {
@@ -41,17 +42,15 @@ const productSchema = new mongoose.Schema({
     image_url_secodary_3: {
         type: String
     },
-    category: [{
-            type: String,
-            lowercase: true,
-            index: true,
-            enum: ['grocery', 'electronics', 'clothing', 'sports', 'fast food'],
-        },
-    ],
+    category: {
+        type: String,
+        lowercase: true,
+        index: true,
+        enum: ['grocery', 'fashion', 'electronics'],
+    },
     vector_embbeddings: [{
         type: Number
-    },
-],
+    },],
     item_price: {
         type: Number,
         required: true,
@@ -82,7 +81,27 @@ const productSchema = new mongoose.Schema({
     },
     lwh_quantity: {
         type: String,
+    }, 
+    sub_category: {
+        type: String,
+        validate: {
+            validator: function (value) {
+                const selectedCategory = this.category && this.category.toLowerCase();
+               
+                if (
+                    selectedCategory &&
+                    subCategories[selectedCategory] &&
+                    subCategories[selectedCategory][value]
+                ) {
+                    return true;
+                }
+            
+                return false;
+            },
+            message: 'Invalid subcategory for the selected category.',
+        },
     },
+    
 });
 productSchema.plugin(mongoosePaginate);
 const Product = mongoose.model('Product', productSchema);
