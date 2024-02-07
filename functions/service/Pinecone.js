@@ -1,13 +1,11 @@
 const { Pinecone } = require('@pinecone-database/pinecone');
 const functions = require('firebase-functions');
 
-const pc = new Pinecone({
-  apiKey: functions.config().config.pineconeapi
-});
-
-const index = pc.index('products');
-
 exports.insertIndex = async (req, res) => {
+    const pc = new Pinecone({
+        apiKey: functions.config().config.pineconeapi
+      });
+    const index = pc.index('products');
     try {
         const { vector, metadata } = req.body;
 
@@ -50,7 +48,12 @@ exports.insertIndex = async (req, res) => {
 };
 
 exports.readIndex = async (req, res) => {
-    try {
+    try {    
+        const pc = new Pinecone({
+            apiKey: functions.config().config.pineconeapi
+        });
+        const index = pc.index('products');
+
         const productId = req.query.product_id;
 
         if (!productId || productId === '' || productId === 'undefined') {
@@ -72,6 +75,11 @@ exports.readIndex = async (req, res) => {
 
 exports.deleteIndex = async (req, res) => {
     try {
+        const pc = new Pinecone({
+            apiKey: functions.config().config.pineconeapi
+        });
+        const index = pc.index('products');
+
         const productId = req.query.product_id;
 
         if (!productId || productId === '' || productId === 'undefined') {
