@@ -4,7 +4,7 @@ const storeService = require("./service/store");
 const productService = require("./service/product");
 const db = require("./service/db");
 const cors = require("cors")({origin: true});
-
+const vectorDb = require("./service/Pinecone")
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -103,3 +103,27 @@ exports.searchProduct = functions.https.onRequest(asyncMiddleware(async (req, re
     productService.searchProducts(req, res);
     });
 }));
+
+// vectorDb CRUD
+
+exports.readVectorIndex = functions.https.onRequest(asyncMiddleware(async (req, res) => {
+    cors(req, res, () => {
+        vectorDb.readIndex(req, res);
+    });
+
+}));
+
+exports.insertVectorIndex = functions.https.onRequest(asyncMiddleware(async (req, res) => {
+    cors(req, res, () => {
+        vectorDb.insertIndex(req, res);
+    });
+
+}));
+
+exports.deleteVectorIndex = functions.https.onRequest(asyncMiddleware(async (req, res) => {
+    cors(req, res, () => {
+        vectorDb.deleteIndex(req, res);
+    });
+
+}));
+
