@@ -7,11 +7,11 @@ const productSchema = new mongoose.Schema({
         type: String,
         index: true,
         required: true,
-        maxLength: 100,
+        maxLength: 500,
         validate: {
             validator: function (value) {
               // Custom validation function to check if the length does not exceed the maximum
-              return value.length <= 100;
+              return value.length <= 500;
             },
             message: 'Product name must not exceed 100 characters',
           },
@@ -20,11 +20,11 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: true,
-        maxLength: 1000,
+        maxLength: 4000,
         validate: {
             validator: function (value) {
               // Custom validation function to check if the length does not exceed the maximum
-              return value.length <= 2000;
+              return value.length <= 4000;
             },
             message: 'Product description must not exceed 2000 characters',
           },
