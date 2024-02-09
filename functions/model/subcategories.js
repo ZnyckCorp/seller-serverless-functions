@@ -34,6 +34,38 @@ const subCategories = {
             5: 'milk drinks',
             6: 'cheese, butter, jam'
         },
+        baby_care:{
+            1 : 'Diapering',
+            2 : 'Bathing Needs',
+            3 : 'Baby Food',
+            4 : 'Baby Gifting & toys',
+        },
+        cleaning_essentials : {
+            1 : 'Fresheners',
+            2 : 'Garbage bags',
+            3 : 'Liquid detergents',
+            4 : 'toilet cleaner',
+            5 : 'Dishwasher Bars',
+            6 : 'Shoe care',
+            7 : 'Mops & brooms'
+        }, 
+        pet_care : {
+            1 : 'Dog food',
+            2 : 'Cat food',
+            3 : 'Dog treats',
+            4 : 'Cat treats',
+            5 : 'Dog toys',
+            6 : 'Cat toys',
+            7 : 'Dog accessories',
+            8 : 'Cat accessories',
+            9 : 'Dog grooming',
+            10 : 'Cat grooming'
+        },
+        snacks_munchies : {
+            1 : 'chips & crisps',
+            2 : 'bhujira mixes',
+            3 : 'energy bars'
+        },
     },
     electronics: {
         mobile_phones: {

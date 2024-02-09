@@ -84,6 +84,7 @@ const productSchema = new mongoose.Schema({
     }, 
     sub_category: {
         type: String,
+        required : true,
         validate: {
             validator: function (value) {
                 const selectedCategory = this.category && this.category.toLowerCase();

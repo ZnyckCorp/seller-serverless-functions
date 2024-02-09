@@ -5,6 +5,8 @@ const productService = require("./service/product");
 const db = require("./service/db");
 const cors = require("cors")({origin: true});
 const vectorDb = require("./service/Pinecone")
+const recom = require("./service/queryrecom")
+
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -127,3 +129,9 @@ exports.deleteVectorIndex = functions.https.onRequest(asyncMiddleware(async (req
 
 }));
 
+// recomnadation engine
+exports.queryrecom = functions.https.onRequest(asyncMiddleware(async (req, res) => {
+    cors(req, res, () => {
+        recom.queryrecom(req, res);
+    });
+}));

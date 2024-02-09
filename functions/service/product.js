@@ -25,8 +25,11 @@ exports.createProduct = async (req, res) =>  {
                 item_quantity: req.body.item_quantity,
                 store_id: storeDetails._id,
                 store_lat: storeDetails.store_lat,
-                store_lng: storeDetails.store_long
+                store_lng: storeDetails.store_long,
+                sub_category : req.body.sub_category
             });
+            let real_desc = req.body.item_description;
+            req.body.item_description = req.body.item_name + " : " +  req.body.item_description + "category [ " + req.body.category + " ] " + " sub_category [ " +  req.body.sub_category + "]";
             await embeddingService.generate_embeddings(req, res).then((result)=>{
               product.vector_embbeddings = result;
             }).catch((error) => {
@@ -36,6 +39,7 @@ exports.createProduct = async (req, res) =>  {
             if(product.vector_embbeddings === null || product.vector_embbeddings === undefined || product.vector_embbeddings === ""){
                 return res.status(500).json({ message: 'Internal Server Error during vect0r embedding' });
             }
+            req.body.item_description = real_desc;
             const savedProduct = await product.save();
             return res.status(201).json(savedProduct);
           } catch (error) {
@@ -128,12 +132,18 @@ exports.getAllProducts = async (req, res) => {
               }
               req.body.item_name = product.item_name;
               req.body.item_description = product.item_description;
+
+              let real_desc = req.body.item_description;
+              req.body.item_description = req.body.item_name + " : " +  req.body.item_description + "category [ " + req.body.category + " ] " + " sub_category [ " +  req.body.sub_category + "]";
+              
               await embeddingService.generate_embeddings(req, res).then((result)=>{
                 console.log(result);
                 product.vector_embbeddings = result;
               }).catch((error) => {
                 return res.status(500).json({ message: 'Internal Server Error during vector embedding' +error.message });
               });
+
+              req.body.item_description = real_desc;
               const updatedProduct = await Product.findByIdAndUpdate(product_id, product, { new: true });
         
               if (!updatedProduct) {
